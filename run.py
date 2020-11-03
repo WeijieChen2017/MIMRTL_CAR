@@ -25,22 +25,22 @@ parser.add_argument('--benchmark', type=bool, default=True, help='report benchma
 args = parser.parse_args()
 
 
-# SCALE = args.scale
+SCALE = args.scale
 # KSIZE = 3 * SCALE + 1
 # OFFSET_UNIT = SCALE
 # BENCHMARK = args.benchmark
 
 # kernel_generation_net = DSN(k_size=KSIZE, scale=SCALE).cuda()
 # downsampler_net = Downsampler(SCALE, KSIZE).cuda()
-# upscale_net = EDSR(32, 256, scale=SCALE).cuda()
+upscale_net = EDSR(32, 256, scale=SCALE).cuda()
 
 # kernel_generation_net = nn.DataParallel(kernel_generation_net, [0])
 # downsampler_net = nn.DataParallel(downsampler_net, [0])
-# upscale_net = nn.DataParallel(upscale_net, [0])
+upscale_net = nn.DataParallel(upscale_net, [0])
 
 # kernel_generation_net.load_state_dict(torch.load(os.path.join(args.model_dir, '{0}x'.format(SCALE), 'kgn.pth')))
-# upscale_net.load_state_dict(torch.load(os.path.join(args.model_dir, '{0}x'.format(SCALE), 'usn.pth')))
-# torch.set_grad_enabled(False)
+upscale_net.load_state_dict(torch.load(os.path.join(args.model_dir, '{0}x'.format(SCALE), 'usn.pth')))
+torch.set_grad_enabled(False)
 
 def maxmin_norm(data):
     MAX = np.amax(data)
