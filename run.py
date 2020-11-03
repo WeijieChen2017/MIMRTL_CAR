@@ -61,7 +61,7 @@ def validation(img, name, save_imgs=False, save_dir=None):
     # downscaled_img = torch.clamp(downscaled_img, 0, 1)
     # downscaled_img = torch.round(downscaled_img * 255)
 
-    reconstructed_img = upscale_net(img.tensor()).data.cpu().numpy()
+    reconstructed_img = upscale_net(torch.from_numpy(img)).data.cpu().numpy()
 
     print(reconstructed_img.shape)
 
