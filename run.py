@@ -125,7 +125,7 @@ if __name__ == '__main__':
         nii_data, total_sum = maxmin_norm(nii_file.get_fdata())
 
         for idx_slice in range(nii_data.shape[2]):
-            nii_slice = nii_data[:, :, idx_slice]
+            nii_slice = nii_data[:, :, idx_slice].reshape((256, 256, 1, 1))
             validation(nii_slice, name, save_imgs=True, save_dir=args.output_dir)
 
 
