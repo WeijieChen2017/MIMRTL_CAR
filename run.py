@@ -104,7 +104,7 @@ def validation(img, name, save_imgs=False, save_dir=None):
 
 
 if __name__ == '__main__':
-    img_list = glob("."+args.img_dir+'/*.nii')
+    img_list = glob("./"+args.img_dir+'/*.nii')
     print("."+args.img_dir+'/*.nii')
     assert len(img_list) > 0
 
