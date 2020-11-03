@@ -78,7 +78,7 @@ def validation(img, name, save_imgs=False, save_dir=None):
 
     reconstructed_img = upscale_net(torch.from_numpy(img).float()).data.cpu().numpy()
 
-    print(reconstructed_img.shape)
+    # print(reconstructed_img.shape)
 
     # img = img * 255
     # img = img.data.cpu().numpy().transpose(0, 2, 3, 1)
@@ -138,6 +138,7 @@ if __name__ == '__main__':
 
         nii_file = nib.load(img_file)
         nii_data, total_sum = maxmin_norm(nii_file.get_fdata())
+        print(total_sum)
         nii_index = np.int64(create_index(nii_data, 3))
         dx, dy, dz = nii_data.shape
         nii_img = np.zeros((1, 3, 256, 256))
@@ -153,7 +154,7 @@ if __name__ == '__main__':
 
             nii_recon[:, :, idx_slice] = validation(nii_img, name, save_imgs=True, save_dir=args.output_dir)
 
-        factor_f = total_sum/np.sum(nii_recon)
+        factor_f = total_sum/np.sum(nii_recon, axis=-1)
         file_fake = nib.Nifti1Image(nii_recon*factor_f, nii_file.affine, nii_file.header)
         nib.save(file_fake, "./"+name+"_2x_fake.nii")
 
