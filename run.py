@@ -26,9 +26,9 @@ args = parser.parse_args()
 
 
 SCALE = args.scale
-# KSIZE = 3 * SCALE + 1
-# OFFSET_UNIT = SCALE
-# BENCHMARK = args.benchmark
+KSIZE = 3 * SCALE + 1
+OFFSET_UNIT = SCALE
+BENCHMARK = args.benchmark
 
 # kernel_generation_net = DSN(k_size=KSIZE, scale=SCALE).cuda()
 # downsampler_net = Downsampler(SCALE, KSIZE).cuda()
