@@ -45,7 +45,7 @@ torch.set_grad_enabled(False)
 def maxmin_norm(data):
     MAX = np.amax(data)
     MIN = np.amin(data)
-    SUM = np.sum(data, axis=-1)
+    SUM = np.sum(data)
     if MAX-MIN > 0:
         data = (data - MIN)/(MAX-MIN)
     return data, SUM
@@ -154,7 +154,7 @@ if __name__ == '__main__':
 
             nii_recon[:, :, idx_slice] = validation(nii_img, name, save_imgs=True, save_dir=args.output_dir)
 
-        factor_f = total_sum/np.sum(nii_recon, axis=-1)
+        factor_f = total_sum/np.sum(nii_recon)
         file_fake = nib.Nifti1Image(nii_recon*factor_f, nii_file.affine, nii_file.header)
         nib.save(file_fake, "./"+name+"_2x_fake.nii")
 
