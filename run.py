@@ -76,7 +76,7 @@ def validation(img, name, save_imgs=False, save_dir=None):
     # downscaled_img = torch.clamp(downscaled_img, 0, 1)
     # downscaled_img = torch.round(downscaled_img * 255)
 
-    reconstructed_img = upscale_net(torch.from_numpy(img)).data.cpu().numpy()
+    reconstructed_img = upscale_net(torch.from_numpy(img).float()).data.cpu().numpy()
 
     print(reconstructed_img.shape)
 
@@ -140,7 +140,7 @@ if __name__ == '__main__':
         nii_data, total_sum = maxmin_norm(nii_file.get_fdata())
         nii_index = np.int64(create_index(nii_data, 3))
         nii_img = np.zeros((1, 3, 256, 256))
-        print(nii_index)
+        # print(nii_index)
 
         for idx_slice in range(nii_data.shape[2]):
             nii_img[:, 0, :, :] = nii_data[:, :, nii_index[idx_slice, 0]]
