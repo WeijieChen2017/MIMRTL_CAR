@@ -115,7 +115,7 @@ def validation(img, name, save_imgs=False, save_dir=None):
     # ssim = utils.calc_ssim(recon_img_y, orig_img_y)
 
     # return psnr, ssim
-    return None
+    return np.squeeze(reconstructed_img[:, 1, :, :])
 
 
 if __name__ == '__main__':
@@ -126,8 +126,8 @@ if __name__ == '__main__':
     if not os.path.exists(args.output_dir):
         os.makedirs(args.output_dir)
 
-    psnr_list = list()
-    ssim_list = list()
+    # psnr_list = list()
+    # ssim_list = list()
     for img_file in tqdm(img_list):
         name = os.path.basename(img_file)
         name = os.path.splitext(name)[0]
@@ -140,6 +140,7 @@ if __name__ == '__main__':
         nii_data, total_sum = maxmin_norm(nii_file.get_fdata())
         nii_index = np.int64(create_index(nii_data, 3))
         nii_img = np.zeros((1, 3, 256, 256))
+        nii_recon = np.zeros(nii_data.shape)
         # print(nii_index)
 
         for idx_slice in range(nii_data.shape[2]):
@@ -147,8 +148,11 @@ if __name__ == '__main__':
             nii_img[:, 1, :, :] = nii_data[:, :, nii_index[idx_slice, 1]]
             nii_img[:, 2, :, :] = nii_data[:, :, nii_index[idx_slice, 2]]
 
-            validation(nii_img, name, save_imgs=True, save_dir=args.output_dir)
+            nii_recon[:, :, idx_slice] = validation(nii_img, name, save_imgs=True, save_dir=args.output_dir)
 
+        factor_f = total_sum/np.sum(nii_recon)
+        file_fake = nib.Nifti1Image(nii_recon*factor_f, nii_file.affine, nii_file.header)
+        nib.save(file_fake, "./"+name+"_2x_fake.nii")
 
         # img = utils.load_img(img_file)
 
