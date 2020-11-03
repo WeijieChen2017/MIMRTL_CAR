@@ -140,6 +140,7 @@ if __name__ == '__main__':
         nii_data, total_sum = maxmin_norm(nii_file.get_fdata())
         nii_index = create_index(nii_data, 3)
         nii_img = np.zeros((1, 3, 256, 256))
+        print(nii_index)
 
         for idx_slice in range(nii_data.shape[2]):
             nii_img[:, 0, :, :] = nii_data[:, :, nii_index[idx_slice, 0]]
