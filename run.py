@@ -3,17 +3,17 @@ import numpy as np
 import nibabel as nib
 from tqdm import tqdm
 from glob import glob
-# from PIL import Image
+from PIL import Image
 
 
-# import torch
-# import torch.nn as nn
+import torch
+import torch.nn as nn
 
-# import utils
-# from EDSR.edsr import EDSR
-# from modules import DSN
-# from adaptive_gridsampler.gridsampler import Downsampler
-# from skimage.color import rgb2ycbcr
+import utils
+from EDSR.edsr import EDSR
+from modules import DSN
+from adaptive_gridsampler.gridsampler import Downsampler
+from skimage.color import rgb2ycbcr
 
 
 parser = argparse.ArgumentParser(description='Content Adaptive Resampler for Image downscaling')
