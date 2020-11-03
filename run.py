@@ -50,6 +50,21 @@ def maxmin_norm(data):
         data = (data - MIN)/(MAX-MIN)
     return data, SUM
 
+def create_index(dataA, n_slice, zeroPadding=False):
+    h, w, z = dataA.shape
+    index = np.zeros((z,n_slice))
+    
+    for idx_z in range(z):
+        for idx_c in range(n_slice):
+            index[idx_z, idx_c] = idx_z-(n_slice-idx_c+1)+n_slice//2+2
+    if zeroPadding:
+        index[index<0]=z
+        index[index>z-1]=z
+    else:
+        index[index<0]=0
+        index[index>z-1]=z-1
+    return index
+
 
 def validation(img, name, save_imgs=False, save_dir=None):
     # kernel_generation_net.eval()
@@ -123,10 +138,15 @@ if __name__ == '__main__':
 
         nii_file = nib.load(img_file)
         nii_data, total_sum = maxmin_norm(nii_file.get_fdata())
+        nii_index = create_index(nii_data, 3)
+        nii_img = np.zeros((1, 3, 256, 256))
 
         for idx_slice in range(nii_data.shape[2]):
-            nii_slice = nii_data[:, :, idx_slice].reshape((256, 256, 1, 1))
-            validation(nii_slice, name, save_imgs=True, save_dir=args.output_dir)
+            nii_img[:, 0, :, :] = nii_data[:, :, nii_index[idx_slice, 0]]
+            nii_img[:, 1, :, :] = nii_data[:, :, nii_index[idx_slice, 1]]
+            nii_img[:, 2, :, :] = nii_data[:, :, nii_index[idx_slice, 2]]
+
+            validation(nii_img, name, save_imgs=True, save_dir=args.output_dir)
 
 
         # img = utils.load_img(img_file)
