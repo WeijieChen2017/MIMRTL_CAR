@@ -138,7 +138,7 @@ if __name__ == '__main__':
 
         nii_file = nib.load(img_file)
         nii_data, total_sum = maxmin_norm(nii_file.get_fdata())
-        nii_index = create_index(nii_data, 3)
+        nii_index = int(create_index(nii_data, 3))
         nii_img = np.zeros((1, 3, 256, 256))
         print(nii_index)
 
