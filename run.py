@@ -126,7 +126,7 @@ if __name__ == '__main__':
 
         for idx_slice in range(nii_data.shape[2]):
             nii_slice = nii_data[:, :, idx_slice]
-            validation(img, name, save_imgs=True, save_dir=args.output_dir)
+            validation(nii_slice, name, save_imgs=True, save_dir=args.output_dir)
 
 
         # img = utils.load_img(img_file)
